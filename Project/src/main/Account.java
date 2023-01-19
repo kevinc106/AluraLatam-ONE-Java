@@ -5,6 +5,21 @@ public class Account {
 	private int agency;
 	private int number;
 	private Client client;
+	private static int total;
+	
+	public static int getTotal() {
+		return Account.total;
+	}
+	
+	public Account(int agency) {
+		if(agency<=0) {
+			System.out.println("Error");
+			this.agency=1;
+		}else {
+			this.agency=agency;
+		}
+		Account.total++;
+	}
 	
 	public double getBalance() {
 		return balance;
