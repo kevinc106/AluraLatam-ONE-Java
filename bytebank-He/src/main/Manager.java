@@ -1,11 +1,9 @@
 package main;
 
-public class Officer {
+public class Manager {
 	private String name;
 	private String document;
 	private double Salary;
-	
-	
 	public String getName() {
 		return name;
 	}
@@ -26,6 +24,6 @@ public class Officer {
 	}
 	
 	public double getBonification() {
-		return this.Salary * 0.1;
+		return this.Salary;
 	}
 }

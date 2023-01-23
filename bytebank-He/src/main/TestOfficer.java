@@ -7,5 +7,7 @@ public class TestOfficer {
 		diego.setDocument("123");
 		diego.setSalary(1200);
 		System.out.println(diego.getSalary());
+		System.out.println(diego.getBonification());
+		
 	}
 }
