@@ -22,7 +22,7 @@ public class Officer {
 		return Salary;
 	}
 	public void setSalary(double salary) {
-		Salary = salary;
+		this.Salary = salary;
 	}
 	
 	public double getBonification() {
