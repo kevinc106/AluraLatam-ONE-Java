@@ -1,21 +1,31 @@
 package bytebank;
 
-public class CuentaCorriente extends Cuenta {
-
+public class CuentaCorriente extends Cuenta implements ObtenerComision{
+ 
 	public CuentaCorriente( int agencia, int numero) {
 		super(agencia, numero);
 	}
-	
-	@Override
+
+	@Override 
 	public boolean saca(double valor) {
-		double comision = 0.2;
-		return super.saca(valor + comision);
+		double valorTotal = obtenerComision(valor);
+		if(this.saldo >= valorTotal) {
+            this.saldo -= valorTotal;
+            return true;
+        } else {
+            return false;
+        }
 	}
 
 	@Override
 	public void deposita(double valor) {
-		// TODO Auto-generated method stub
-		
+		if(valor>0)
+			this.saldo+=valor;
+	}
+
+	@Override
+	public double obtenerComision(double valor) {
+		return valor + 0.2;
 	}
 	
 }

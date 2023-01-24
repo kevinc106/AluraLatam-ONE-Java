@@ -9,6 +9,6 @@ public class CuentaAhorros extends Cuenta {
 	@Override
 	public void deposita(double valor) {
 		this.saldo = this.saldo + valor;
-	}
+	} 
 
 }

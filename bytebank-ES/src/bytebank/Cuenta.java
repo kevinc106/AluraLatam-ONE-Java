@@ -21,16 +21,7 @@ public abstract class Cuenta {
         Cuenta.total ++;
     }
 
-    public abstract void deposita(double valor);
-
-    public boolean saca(double valor) {
-        if(this.saldo >= valor) {
-            this.saldo -= valor;
-            return true;
-        } else {
-            return false;
-        }
-    }
+    public abstract void deposita(double valor); 
 
     public boolean transfiere(double valor, Cuenta destino) {
         if(this.saldo >= valor) {
@@ -77,5 +68,14 @@ public abstract class Cuenta {
     public static int getTotal() {
         return Cuenta.total;
     }
+
+	public boolean saca(double valor) {
+		if(this.saldo >= valor) {
+            this.saldo -= valor;
+            return true;
+        } else {
+            return false;
+        }
+	}
 
 }
