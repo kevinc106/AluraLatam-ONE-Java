@@ -8,7 +8,7 @@ public class TestConexion {
 		} catch (Exception e) {
 			System.out.println("recibiendo exception");
 			e.printStackTrace();
-		}
+		} 
 		//Use this with objects
 		/*Conexion con = new Conexion();
 		try {			
