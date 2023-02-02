@@ -10,21 +10,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.alura.jdbc.factory.ConexionFactory;
+
 public class ProductoController {
 
 	public void modificar(String nombre, String descripcion, Integer id) {
 		// TODO
 	}
 
-	public void eliminar(Integer id) {
-		// TODO
+	public void eliminar(Integer id) throws SQLException {
+		Connection con = new ConexionFactory().recuperaConexion(); 
+    	
+    	String query = String.format("DELETE FROM producto WHERE id=%s", String.valueOf(id));
+    	Statement statement = con.createStatement();
+        statement.execute(query); 
+         
+        con.close(); 
 	}
 
 	public List<Map<String,String>> listar() throws SQLException {
-		Connection con = DriverManager.getConnection(
-                "jdbc:mysql://localhost/control_de_stock?useTimeZone=true&serverTimeZone=UTC",
-                "root",
-                "main123");
+		Connection con = new ConexionFactory().recuperaConexion();
 
         Statement statement = con.createStatement();
         statement.execute("SELECT id,nombre,descripcion,cantidad FROM producto"); 
@@ -46,8 +51,18 @@ public class ProductoController {
 		return resultado;
 	}
 
-    public void guardar(Object producto) {
-		// TODO
+    public void guardar(Map<String,String> producto) throws SQLException {
+    	Connection con = new ConexionFactory().recuperaConexion();
+    	String nombre = producto.get("Nombre");
+    	String descripcion = producto.get("Descripcion");
+    	String cantidad = producto.get("Cantidad");
+    	
+    	String query = String.format("INSERT INTO producto(nombre,descripcion,cantidad) VALUES ('%s','%s',%s)", nombre,descripcion,cantidad);
+    	Statement statement = con.createStatement();
+        statement.execute(query); 
+         
+        con.close(); 
+    	
 	}
 
 }

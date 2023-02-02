@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -204,9 +205,14 @@ public class ControlDeStockFrame extends JFrame {
 
         Optional.ofNullable(modelo.getValueAt(tabla.getSelectedRow(), tabla.getSelectedColumn()))
                 .ifPresentOrElse(fila -> {
-                    Integer id = (Integer) modelo.getValueAt(tabla.getSelectedRow(), 0);
+                    Integer id = Integer.valueOf((String) modelo.getValueAt(tabla.getSelectedRow(), 0));
 
-                    this.productoController.eliminar(id);
+                    try {
+						this.productoController.eliminar(id);
+					} catch (SQLException e) {
+						 
+						e.printStackTrace();
+					}
 
                     modelo.removeRow(tabla.getSelectedRow());
 
@@ -248,10 +254,19 @@ public class ControlDeStockFrame extends JFrame {
         }
 
         // TODO
-        var producto = new Object[] { textoNombre.getText(), textoDescripcion.getText(), cantidadInt };
+        Map<String,String> producto = new HashMap<String, String>(); 
+        producto.put("Nombre", textoNombre.getText());
+        producto.put("Descripcion", textoDescripcion.getText()); 
+        producto.put("Cantidad", String.valueOf(cantidadInt)); 
+        //var producto = new Object[] { textoNombre.getText(), textoDescripcion.getText(), cantidadInt };
         var categoria = comboCategoria.getSelectedItem();
 
-        this.productoController.guardar(producto);
+        try {
+			this.productoController.guardar(producto);
+		} catch (SQLException e) {
+		 
+			e.printStackTrace();
+		}
 
         JOptionPane.showMessageDialog(this, "Registrado con éxito!");
 
