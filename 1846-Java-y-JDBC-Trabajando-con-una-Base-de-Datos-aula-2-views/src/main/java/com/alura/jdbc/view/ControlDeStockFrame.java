@@ -189,11 +189,17 @@ public class ControlDeStockFrame extends JFrame {
 
         Optional.ofNullable(modelo.getValueAt(tabla.getSelectedRow(), tabla.getSelectedColumn()))
                 .ifPresentOrElse(fila -> {
-                    Integer id = (Integer) modelo.getValueAt(tabla.getSelectedRow(), 0);
+                    Integer id = Integer.valueOf((String) modelo.getValueAt(tabla.getSelectedRow(), 0));
                     String nombre = (String) modelo.getValueAt(tabla.getSelectedRow(), 1);
                     String descripcion = (String) modelo.getValueAt(tabla.getSelectedRow(), 2);
+                    String cantidad = (String) modelo.getValueAt(tabla.getSelectedRow(), 3);
 
-                    this.productoController.modificar(nombre, descripcion, id);
+                    try {
+						this.productoController.modificar(nombre, descripcion, cantidad, id);
+					} catch (SQLException e) {
+						 
+						e.printStackTrace();
+					}
                 }, () -> JOptionPane.showMessageDialog(this, "Por favor, elije un item"));
     }
 
