@@ -64,19 +64,41 @@ public class ProductoController {
 
     public void guardar(Map<String,String> producto) throws SQLException {
     	Connection con = new ConexionFactory().recuperaConexion();
+    	con.setAutoCommit(false);
+    	
     	String nombre = producto.get("Nombre");
     	String descripcion = producto.get("Descripcion");
     	Integer cantidad = Integer.valueOf(producto.get("Cantidad"));
-    	 
+    	Integer cantidadMax = 50;
+    	
     	String query = String.format("INSERT INTO producto(nombre,descripcion,cantidad) VALUES (?,?,?)");
     	PreparedStatement statement = con.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
-    	statement.setString(1, nombre);
+        try {
+			do {
+				
+				int cantidadAGuardar = Math.min(cantidad, cantidadMax);
+				ejecutarRegistro(nombre, descripcion, cantidadAGuardar, statement);         	
+				cantidad -= cantidadMax;
+				
+			} while (cantidad>0);  
+			con.commit();
+			System.out.println("Commited");
+		} catch (SQLException e) {
+			System.out.println("Rollback");
+			con.rollback();
+		}
+        statement.close();
+        con.close(); 
+        System.out.println("Close");
+	}
+
+	private void ejecutarRegistro(String nombre, String descripcion, Integer cantidad, PreparedStatement statement)
+			throws SQLException { 
+		statement.setString(1, nombre);
     	statement.setString(2, descripcion);
     	statement.setInt(3, cantidad);
-        statement.execute(); 
-         
-        con.close(); 
-    	
+        statement.execute();
+        
 	}
 
 }
